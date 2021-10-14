@@ -1,6 +1,8 @@
 import pygame
 
 from Colour import Colour
+from IntroStage import IntroStage
+from NewPlanetStage import NewPlanetStage
 from Planet import Planet
 from Universe import Universe
 
@@ -18,13 +20,13 @@ Mars = Planet(name="Mars", size=0.533, transform=10, sm_axis=1.52, eccentricity=
               colour=Colour.MARS.value)
 
 # Outer Solar System
-Jupiter = Planet(name="Jupiter", size=11.2, transform=1, sm_axis=5.20, eccentricity=0.049, d_angle=0.084,
+Jupiter = Planet(name="Jupiter", size=11.2, sm_axis=5.20, eccentricity=0.049, d_angle=0.084,
                  colour=Colour.JUPITER.value)
-Saturn = Planet(name="Saturn", size=9.45, transform=1, sm_axis=9.58, eccentricity=0.057, d_angle=0.034,
+Saturn = Planet(name="Saturn", size=9.45, sm_axis=9.58, eccentricity=0.057, d_angle=0.034,
                 colour=Colour.SATURN.value)
-Uranus = Planet(name="Uranus", size=4, transform=1, sm_axis=19.22, eccentricity=0.046, d_angle=0.01189,
+Uranus = Planet(name="Uranus", size=4, sm_axis=19.22, eccentricity=0.046, d_angle=0.01189,
                 colour=Colour.URANUS.value)
-Neptune = Planet(name="Neptune", size=3.9, transform=1, sm_axis=30.07, eccentricity=0.0087, d_angle=0.0061,
+Neptune = Planet(name="Neptune", size=3.9, sm_axis=30.07, eccentricity=0.0087, d_angle=0.0061,
                  colour=Colour.NEPTUNE.value)
 
 
@@ -35,6 +37,10 @@ def main():
     universe = Universe(bodies=[Sun, Mercury, Venus, Earth, Mars, Jupiter, Saturn, Uranus, Neptune], screen=screen, multi=multi)
     running = True
     simulate = False
+    inIntro = True
+    inNewPlanet = False
+
+    intro = IntroStage(screen)
 
     while running:
         for event in pygame.event.get():
@@ -50,9 +56,22 @@ def main():
 
                 if event.key == pygame.K_SPACE:
                     simulate = not simulate
+                    inIntro = False
+
+                if event.key == pygame.K_n:
+                    simulate = False
+                    inNewPlanet = True
+                    new_planet = NewPlanetStage(screen)
+
+        if inIntro:
+            intro.show()
+
         if simulate:
             universe.tick()
             universe.draw()
+
+        if inNewPlanet:
+            new_planet.run()
 
 
 if __name__ == '__main__':
