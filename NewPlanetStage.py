@@ -1,22 +1,25 @@
 import pygame
 
 from Colour import Colour
-from Utils import top_quarter, centre_text, lower_quarter, create_colour_wheel
+from Utils import top_quarter, centre_text, lower_quarter
+from Planet import Planet
 
 
 class NewPlanetStage:
 
-    def __init__(self, screen):
+    def __init__(self, screen, universe):
         self.screen = screen
         self.text = pygame.font.Font(r"./assets/fonts/SpaceGrotesk-Regular.ttf", 20)
         self.name_text = self.text.render("Enter a name for your new planet", True, Colour.WHITE.value)
-        self.continue_text = self.text.render("Press SPACE to continue", True, Colour.WHITE.value)
+        self.continue_text = self.text.render("Press ENTER to continue", True, Colour.WHITE.value)
+        # self.continue_text2 = self.text.render("Press SPACE to continue", True, Colour.WHITE.value)
         self.size_text = self.text.render("Use MOUSE-WHEEL or UP and DOWN to change the planet size",
                                           True, Colour.WHITE.value)
         # self.colour_text = self.text.render("Select the planet colour from the colour wheel", True, Colour.WHITE.value)
         self.name = ""
         self.step = 1
         self.size = 8
+        self.universe = universe
 
     def step1(self):
         self.screen.fill(Colour.BLACK.value)
@@ -72,17 +75,25 @@ class NewPlanetStage:
                 elif event.button == 5:
                     self.size -= 1
 
-    def step3(self):
-        self.screen.fill(Colour.BLACK.value)
+    def add_to_universe(self, universe):
+        print(self.step)
+        # for event in pygame.event.get():
+        #     if event.type == pygame.KEYDOWN:
 
-        # coords = top_quarter(self.screen, self.colour_text)
-        # self.screen.blit(self.colour_text, coords)
+        _tmp_planet = Planet(name=self.name, size=self.size, transform=8, sm_axis=1, eccentricity=0.02, d_angle=1,
+                             colour=Colour.WHITE.value)
+        universe.add_planet(_tmp_planet)
 
+    # def step3(self):
+    #     self.screen.fill(Colour.BLACK.value)
 
-        # colour_wheel = create_colour_wheel(radius=100)
-        # self.screen.blit(colour_wheel, [540, 360])
-        #
-        # pygame.display.flip()
+    # coords = top_quarter(self.screen, self.colour_text)
+    # self.screen.blit(self.colour_text, coords)
+
+    # colour_wheel = create_colour_wheel(radius=100)
+    # self.screen.blit(colour_wheel, [540, 360])
+    #
+    # pygame.display.flip()
 
     def run(self):
         if self.step == 1:
@@ -90,4 +101,7 @@ class NewPlanetStage:
         elif self.step == 2:
             self.step2()
         elif self.step == 3:
-            self.step3()
+            self.add_to_universe(self.universe)
+            return "done"
+        # elif self.step == 3:
+        #     self.step3()

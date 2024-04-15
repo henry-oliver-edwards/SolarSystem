@@ -50,6 +50,7 @@ def main():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
+                pygame.quit()
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_w:
                     multi += 1
@@ -58,32 +59,39 @@ def main():
                     multi -= 1
                     universe.multi = multi
 
-                if event.key == pygame.K_SPACE:
+                elif event.key == pygame.K_SPACE:
                     simulate = not simulate
                     in_intro = False
 
-                if event.key == pygame.K_n:
+                elif event.key == pygame.K_n:
                     simulate = False
                     in_new_planet = True
-                    new_planet = NewPlanetStage(screen)
+                    new_planet_stage = NewPlanetStage(screen=screen, universe=universe)
 
-                if event.key == pygame.K_p:
+                elif event.key == pygame.K_p:
                     simulate = False
                     in_controls = True
+
+                elif event.key == pygame.K_ESCAPE:
+                    pygame.quit()
 
         if in_intro:
             intro.show()
 
-        if simulate:
+        elif simulate:
             universe.tick()
             universe.draw()
 
-        if in_new_planet:
-            new_planet.run()
+        elif in_new_planet:
+            _tmp = new_planet_stage.run()
+            print(_tmp)
+            if _tmp == "done":
+                print(universe.bodies)
+                simulate = not simulate
+                in_new_planet == False
 
-        if in_controls:
+        elif in_controls:
             controls.show()
-
 
 
 if __name__ == '__main__':

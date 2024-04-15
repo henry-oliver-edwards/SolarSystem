@@ -147,3 +147,6 @@ class Universe:
         self.screen.blit(speed_text, (5, 30))
         pygame.display.flip()
         pygame.time.delay(self.simulation_speed)
+
+    def add_planet(self, planet):
+        self.bodies.append(planet)
