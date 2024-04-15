@@ -6,6 +6,7 @@ from Colour import Colour
 from Utils import to_delay
 
 
+# TODO Add floating names to the planets
 def kepler_solver(planet):
     temp1 = planet.a * (1 - planet.e ** 2)
     temp2 = 1 + planet.e * cos(radians(planet.theta))

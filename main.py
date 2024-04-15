@@ -84,12 +84,11 @@ def main():
 
         elif in_new_planet:
             _tmp = new_planet_stage.run()
-            print(_tmp)
-            if _tmp == "done":
-                print(universe.bodies)
+            if _tmp is not None and None not in _tmp:
                 simulate = not simulate
                 in_new_planet == False
 
+        # TODO Actually implement this and make it work
         elif in_controls:
             controls.show()
 

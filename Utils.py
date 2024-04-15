@@ -1,3 +1,4 @@
+from random import randint
 import pygame
 from pygame import Surface
 from math import sin, cos, radians, floor
@@ -75,3 +76,6 @@ def hue_to_rgb(p, q, t):
         return q
     elif t < 2 / 3:
         return p + (q - p) * (2 / 3 - t) * 6
+
+def random_colour():
+    return [randint(0, 255), randint(0, 255), randint(0, 255)]
