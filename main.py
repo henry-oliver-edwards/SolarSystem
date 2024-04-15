@@ -5,11 +5,12 @@ from IntroStage import IntroStage
 from NewPlanetStage import NewPlanetStage
 from Planet import Planet
 from Universe import Universe
+from ControlsStage import ControlStage
 
 resolution = (1080, 720)
 
 # Inner Solar System
-Sun = Planet(name="Sun", size=109, transform=1/7.5, position=[resolution[0] / 2, resolution[1] / 2],
+Sun = Planet(name="Sun", size=109, transform=1 / 7.5, position=[resolution[0] / 2, resolution[1] / 2],
              colour=Colour.SUN.value)
 Mercury = Planet(name="Mercury", size=0.383, transform=10, sm_axis=0.39, eccentricity=0.21, d_angle=4.15,
                  colour=Colour.MERCURY.value)
@@ -34,13 +35,16 @@ def main():
     multi = 1
     pygame.init()
     screen = pygame.display.set_mode(resolution)
-    universe = Universe(bodies=[Sun, Mercury, Venus, Earth, Mars, Jupiter, Saturn, Uranus, Neptune], screen=screen, multi=multi)
+    universe = Universe(bodies=[Sun, Mercury, Venus, Earth, Mars, Jupiter, Saturn, Uranus, Neptune], screen=screen,
+                        multi=multi)
     running = True
     simulate = False
-    inIntro = True
-    inNewPlanet = False
+    in_intro = True
+    in_new_planet = False
+    in_controls = False
 
     intro = IntroStage(screen)
+    controls = ControlStage(screen)
 
     while running:
         for event in pygame.event.get():
@@ -56,22 +60,30 @@ def main():
 
                 if event.key == pygame.K_SPACE:
                     simulate = not simulate
-                    inIntro = False
+                    in_intro = False
 
                 if event.key == pygame.K_n:
                     simulate = False
-                    inNewPlanet = True
+                    in_new_planet = True
                     new_planet = NewPlanetStage(screen)
 
-        if inIntro:
+                if event.key == pygame.K_p:
+                    simulate = False
+                    in_controls = True
+
+        if in_intro:
             intro.show()
 
         if simulate:
             universe.tick()
             universe.draw()
 
-        if inNewPlanet:
+        if in_new_planet:
             new_planet.run()
+
+        if in_controls:
+            controls.show()
+
 
 
 if __name__ == '__main__':
