@@ -29,7 +29,7 @@ def coordinate_solver(planet, r, conversion, screen_width, screen_height):
     return planet
 
 
-# Simulate the planet at 0 degree's
+# Simulate the planet at 0 degrees
 def norm_simulate0(planet, screen_width, screen_height):
     planet.theta = 0
     temp1 = kepler_solver(planet)
@@ -37,7 +37,7 @@ def norm_simulate0(planet, screen_width, screen_height):
     return temp2
 
 
-# Simulate the planet at 90 degree's,
+# Simulate the planet at 90 degrees,
 # the change in degree's should give the
 # max x and y of the planets orbit
 def norm_simulate90(planet, screen_width, screen_height):
