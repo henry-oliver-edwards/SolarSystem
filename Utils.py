@@ -1,3 +1,4 @@
+from random import randint
 import pygame
 from pygame import Surface
 from math import sin, cos, radians, floor
@@ -13,13 +14,13 @@ def centre_text(screen, text):
     return [x, y]
 
 
-def top_quater(screen, text):
+def top_quarter(screen, text):
     x = (screen.get_width() / 2) - (text.get_width() / 2)
     y = (screen.get_height() / 4) - (text.get_height() / 2)
     return [x, y]
 
 
-def lower_quater(screen, text):
+def lower_quarter(screen, text):
     x = (screen.get_width() / 2) - (text.get_width() / 2)
     y = ((screen.get_height() / 4) * 3) - (text.get_height() / 2)
     return [x, y]
@@ -35,20 +36,16 @@ def create_colour_wheel(radius, saturation=1):
             y = radius * sin(radians(i))
             surface.set_at([x, y], pygame.Color(hsl_to_rbg(h=i, s=saturation, l=1)))
         else:
-            rotation = floor(i/360)
+            rotation = floor(i / 360)
             deg = i - (rotation * 360)
-            x = (radius-rotation) * cos(radians(deg))
-            y = (radius-rotation) * sin(radians(deg))
+            x = (radius - rotation) * cos(radians(deg))
+            y = (radius - rotation) * sin(radians(deg))
             surface.set_at([x, y], pygame.Color(hsl_to_rbg(h=deg, s=saturation, l=1)))
 
     return surface
 
 
-
-
-
 def hsl_to_rbg(h, s, l):
-
     if s == 0:
         r = g = b = l
     else:
@@ -59,9 +56,9 @@ def hsl_to_rbg(h, s, l):
 
         p = 2 * l - q
 
-        r = int(hue_to_rgb(p, q, h + 1/3))
+        r = int(hue_to_rgb(p, q, h + 1 / 3))
         g = int(hue_to_rgb(p, q, h))
-        b = int(hue_to_rgb(p, q, h -1/3))
+        b = int(hue_to_rgb(p, q, h - 1 / 3))
 
         print(r, g, b)
 
@@ -73,9 +70,12 @@ def hue_to_rgb(p, q, t):
         t += 1
     elif t > 0:
         t -= 1
-    elif t < 1/6:
+    elif t < 1 / 6:
         return p + (q - p) * 6 * t
-    elif t < 1/2:
+    elif t < 1 / 2:
         return q
-    elif t < 2/3:
-        return p + (q - p) * (2/3 - t) * 6
+    elif t < 2 / 3:
+        return p + (q - p) * (2 / 3 - t) * 6
+
+def random_colour():
+    return [randint(0, 255), randint(0, 255), randint(0, 255)]
